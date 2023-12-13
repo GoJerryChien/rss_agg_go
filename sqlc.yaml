@@ -1,0 +1,20 @@
+version: "2"
+
+sql:
+- schema: "sql/schema"
+  queries: "sql/queries"
+  engine: "postgresql"
+  gen:
+    go: 
+      out: "internal/database"
+#   database:
+#     managed: true
+#   rules:
+#     - sqlc/db-prepare
+# - schema: "mysql/schema.sql"
+#   queries: "mysql/query.sql"
+#   engine: "mysql"
+#   gen:
+#     go:
+#       package: "authors"
+#       out: "mysql"
