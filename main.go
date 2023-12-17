@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/GoJerryChien/rss_agg_go/internal/database"
 	"github.com/go-chi/chi"
@@ -19,6 +20,11 @@ type apiConfig struct {
 }
 
 func main() {
+	// feed, err := urlToFeed("https://porter815131.github.io/sitemap.xml")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(feed)
 
 	godotenv.Load()
 
@@ -37,9 +43,12 @@ func main() {
 		log.Fatal("Can't connect to database:", err)
 	}
 
+	db := database.New(conn)
 	apiCfg := apiConfig{
-		DB: database.New(conn),
+		DB: db,
 	}
+
+	go startScraping(db, 10, time.Minute)
 
 	router := chi.NewRouter()
 
